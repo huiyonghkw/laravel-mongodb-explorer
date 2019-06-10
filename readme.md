@@ -1,5 +1,12 @@
 # Laravel中使用MongoDB
 
+## MongoDB实用场景
+
++ 产品用户访问日志，点击埋点统计信息
++ 业务系统环境参数配置信息
++ 业务系统运行时日志，如`laravel.log`，`nginx.log`
+
+
 ## 使用Homebrew在macoOS安装MongoDB PHP Driver 
 
 
@@ -144,22 +151,29 @@ db.ad_clicks.insert({"ip":"201.35.63.14", "ad_index": 3, "created_at": "2019-06-
 { "_id" : ObjectId("5cfe28823316506991c41786"), "ip" : "201.35.63.14", "ad_index" : 3, "created_at" : "2019-06-10 11:34:12" }
 ```
 
-## 在Laravel中使用Thinker 连接MongoDB
+## 在Laravel DB中查询MongoDB
 
 使用了Laravel-MongoDB扩展，可以基于Eloquent与Query Builder操作MySQL一样的数据`php artisan thinker`
 
+查询`ad_clicks`集合所有记录
+
 ```php
-// 查询所有记录
 DB::connection('mongodb')->table('ad_clicks')->get()
-  
-//查询一条记录
+```
+
+查询单个记录
+
+```php
 DB::connection('mongodb')->collection('ad_clicks')->find('5cf71b34e14620598643d23b')
-  
-//修改一条记录
+```
+
+修改某个记录
+
+```php
 DB::connection('mongodb')->collection('ad_clicks')->where('_id', '5cf71b34e14620598643d23b')->update(['ad_index'=>2]);
 ```
 
-## 在Laravel中基于MongoDB使用ORM
+## 在Laravel ORM中查询MongoDB
 
 在项目中，创建一个Model
 
@@ -202,7 +216,7 @@ App\Models\AdClick::create(['ip' => '31.42.4.14', 'ad_index' => 4, 'created_at' 
 统计访问数据
 
 ```php
- App\Models\AdClick::where('ip', '31.42.4.14')->count()
+App\Models\AdClick::where('ip', '31.42.4.14')->count()
 ```
 
 
